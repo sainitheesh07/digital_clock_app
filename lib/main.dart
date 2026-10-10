@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'providers/clock_settings.dart';
 void main() {
   runApp(const DigitalClockApp());
 }
@@ -9,18 +10,23 @@ class DigitalClockApp extends StatelessWidget {
   const DigitalClockApp({super.key});
 
   
+
 @override
 Widget build(BuildContext context) {
-  return MaterialApp(
-    debugShowCheckedModeBanner: false,
-    initialRoute: '/',
-    routes: {
-      '/': (context) => const DigitalClockScreen(),
-      '/world-clock': (context) => const WorldClockScreen(),
-      '/settings': (context) => const SettingsScreen(),
-    },
+  return ChangeNotifierProvider(
+    create: (_) => ClockSettings(),
+    child: MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const DigitalClockScreen(),
+        '/world-clock': (context) => const WorldClockScreen(),
+        '/settings': (context) => const SettingsScreen(),
+      },
+    ),
   );
 }
+
 
 }
 
@@ -35,7 +41,6 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
   
   DateTime currentTime = DateTime.now();
   Timer? timer;
-  bool is24HourFormat = true;
 
   @override
   void initState() {
@@ -78,20 +83,22 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
   }
 
   String getTime() {
-    int hour = currentTime.hour;
+  final use24HourFormat =
+      context.read<ClockSettings>().is24HourFormat;
+  final hour = currentTime.hour;
 
-    if (is24HourFormat) {
-      return '${formatNumber(hour)}:'
-          '${formatNumber(currentTime.minute)}:'
-          '${formatNumber(currentTime.second)}';
-    } else {
-      final displayHour = hour % 12 == 0 ? 12 : hour % 12;
-
-      return '${formatNumber(displayHour)}:'
-          '${formatNumber(currentTime.minute)}:'
-          '${formatNumber(currentTime.second)}';
-    }
+  if (use24HourFormat) {
+    return '${formatNumber(hour)}:'
+        '${formatNumber(currentTime.minute)}:'
+        '${formatNumber(currentTime.second)}';
   }
+
+  final displayHour = hour % 12 == 0 ? 12 : hour % 12;
+
+  return '${formatNumber(displayHour)}:'
+      '${formatNumber(currentTime.minute)}:'
+      '${formatNumber(currentTime.second)}';
+}
 
   String getPeriod() {
     return currentTime.hour >= 12 ? 'PM' : 'AM';
@@ -99,6 +106,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final clockSettings = context.watch<ClockSettings>();
     final time = getTime();
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -136,14 +144,12 @@ final cardPadding = screenWidth < 600 ? 20.0 : 35.0;
                   padding: EdgeInsets.all(cardPadding),
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      setState(() {
-                        is24HourFormat = !is24HourFormat;
-                      });
-                    },
-                    icon: const Icon(Icons.access_time),
-                    label: Text(
-                      is24HourFormat ? '12 Hour' : '24 Hour',
-                    ),
+  context.read<ClockSettings>().toggleTimeFormat();
+},
+icon: const Icon(Icons.access_time),
+label: Text(
+  clockSettings.is24HourFormat ? '12 Hour' : '24 Hour',
+),
                   ),
                 ),
               ),
@@ -192,7 +198,7 @@ final cardPadding = screenWidth < 600 ? 20.0 : 35.0;
                           ),
                         ),
 
-                        if (!is24HourFormat)
+                        if (!clockSettings.is24HourFormat)
                           
 Padding(
   padding: const EdgeInsets.only(bottom: 20),
