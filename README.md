@@ -1,18 +1,27 @@
-## Experiment 9: REST API Integration
+## Experiment 10: Unit Testing, Widget Testing and Debugging
 
-**Aim:** To fetch data from a REST API and display it in a Flutter application.
+### Aim
+To test Flutter application widgets and verify their behavior using Flutter's testing framework.
 
-**Implementation:**
-- Used the `http` package to send GET requests.
-- Used `async` and `await` for asynchronous operations.
-- Parsed JSON responses using `jsonDecode()`.
-- Used `FutureBuilder` to manage loading, success, and error states.
-- Implemented Retry and Refresh Time buttons.
+### Concepts Used
+- `flutter_test` package
+- Widget testing with `testWidgets()`
+- Assertions using `expect()`
+- Widget finding using `find.text()` and `find.byType()`
+- Simulating user actions with `tester.tap()`
+- Debugging with `flutter analyze` and `flutter test`
 
-**Output:**
+### Test Cases
+1. Verify that the digital clock screen displays correctly.
+2. Verify that the clock format toggles between 12-hour and 24-hour modes.
+3. Verify navigation to the World Clock screen.
+4. Verify navigation to the Settings screen.
 
-![Digital Clock](screenshots/digital_clock.png)
+### Result
+Static analysis completed without issues, and all four widget tests passed successfully.
+### Digital Clock App Output
 
-![REST API World Clock](screenshots/rest_api_world_clock.png)
+![Digital Clock App](screenshots/digital_clock.png)
+### REST API Output
 
-**Result:** The application successfully fetched and displayed the Asia/Kolkata timezone, date/time, and UTC offset from a REST API.
+![World Clock REST API](screenshots/rest_api_world_clock.png)

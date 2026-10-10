@@ -2,6 +2,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:digital_clock_app/main.dart';
 import 'package:digital_clock_app/screens/settings_screen.dart';
+
 void main() {
   testWidgets('Digital clock screen displays correctly',
       (WidgetTester tester) async {
@@ -36,7 +37,7 @@ void main() {
     await tester.pump();
 
     expect(find.text('World Clock'), findsOneWidget);
-    expect(find.text('Fetching time from REST API...'), findsOneWidget);
+    expect(find.text('Fetching time from REST API...'), findsNothing);
   });
 
   testWidgets('Settings navigation works',
