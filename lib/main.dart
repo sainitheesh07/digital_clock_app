@@ -8,13 +8,20 @@ void main() {
 class DigitalClockApp extends StatelessWidget {
   const DigitalClockApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DigitalClockScreen(),
-    );
-  }
+  
+@override
+Widget build(BuildContext context) {
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    initialRoute: '/',
+    routes: {
+      '/': (context) => const DigitalClockScreen(),
+      '/world-clock': (context) => const WorldClockScreen(),
+      '/settings': (context) => const SettingsScreen(),
+    },
+  );
+}
+
 }
 
 class DigitalClockScreen extends StatefulWidget {
@@ -186,17 +193,28 @@ final cardPadding = screenWidth < 600 ? 20.0 : 35.0;
                         ),
 
                         if (!is24HourFormat)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Text(
-                              getPeriod(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                          
+Padding(
+  padding: const EdgeInsets.only(bottom: 20),
+  child: Wrap(
+    spacing: 12,
+    children: [
+      ElevatedButton.icon(
+        onPressed: () =>
+            Navigator.pushNamed(context, '/world-clock'),
+        icon: const Icon(Icons.public),
+        label: const Text('World Clock'),
+      ),
+      ElevatedButton.icon(
+        onPressed: () =>
+            Navigator.pushNamed(context, '/settings'),
+        icon: const Icon(Icons.settings),
+        label: const Text('Settings'),
+      ),
+    ],
+  ),
+),
+
 
                         const SizedBox(height: 20),
 
@@ -214,6 +232,67 @@ final cardPadding = screenWidth < 600 ? 20.0 : 35.0;
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class WorldClockScreen extends StatelessWidget {
+  const WorldClockScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('World Clock')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.public, size: 60),
+            const SizedBox(height: 16),
+            Text(
+              'Local Time: ${now.hour.toString().padLeft(2, '0')}:'
+              '${now.minute.toString().padLeft(2, '0')}',
+              style: const TextStyle(fontSize: 24),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/settings'),
+              child: const Text('Open Settings'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Clock Settings')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.settings, size: 60),
+            const SizedBox(height: 16),
+            const Text(
+              'Digital Clock Settings',
+              style: TextStyle(fontSize: 22),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Go Back'),
+            ),
+          ],
         ),
       ),
     );
