@@ -11,6 +11,8 @@
 
 **Output:**
 
-![World Clock REST API Output](screenshots/rest_api_world_clock.png)
+![Digital Clock](screenshots/digital_clock.png)
+
+![REST API World Clock](screenshots/rest_api_world_clock.png)
 
 **Result:** The application successfully fetched and displayed the Asia/Kolkata timezone, date/time, and UTC offset from a REST API.
