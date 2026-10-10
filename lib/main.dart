@@ -25,6 +25,7 @@ class DigitalClockScreen extends StatefulWidget {
 }
 
 class _DigitalClockScreenState extends State<DigitalClockScreen> {
+  
   DateTime currentTime = DateTime.now();
   Timer? timer;
   bool is24HourFormat = true;
@@ -92,6 +93,15 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
   @override
   Widget build(BuildContext context) {
     final time = getTime();
+    final screenWidth = MediaQuery.of(context).size.width;
+
+final clockFontSize = screenWidth < 600
+    ? 38.0
+    : screenWidth < 1024
+        ? 55.0
+        : 72.0;
+
+final cardPadding = screenWidth < 600 ? 20.0 : 35.0;
 
     final date =
         '${currentTime.day} ${getMonth(currentTime.month)} ${currentTime.year}';
@@ -116,7 +126,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(cardPadding),
                   child: ElevatedButton.icon(
                     onPressed: () {
                       setState(() {
@@ -135,7 +145,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
                 child: Center(
                   child: Container(
                     margin: const EdgeInsets.all(25),
-                    padding: const EdgeInsets.all(30),
+                    padding: EdgeInsets.all(cardPadding),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.35),
                       borderRadius: BorderRadius.circular(25),
@@ -168,8 +178,8 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
 
                         Text(
                           time,
-                          style: const TextStyle(
-                            fontSize: 55,
+                          style: TextStyle(
+                            fontSize: clockFontSize,
                             fontWeight: FontWeight.bold,
                             color: Colors.cyanAccent,
                           ),
