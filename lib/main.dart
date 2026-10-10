@@ -137,7 +137,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
                     margin: const EdgeInsets.all(25),
                     padding: const EdgeInsets.all(30),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.35),
+                      color: Colors.black.withValues(alpha: 0.35),
                       borderRadius: BorderRadius.circular(25),
                       border: Border.all(
                         color: Colors.white24,
