@@ -1,7 +1,13 @@
+
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'providers/clock_settings.dart';
+import 'widgets/clock_action_button.dart';
+import 'screens/settings_screen.dart';
+
 void main() {
   runApp(const DigitalClockApp());
 }
@@ -9,53 +15,100 @@ void main() {
 class DigitalClockApp extends StatelessWidget {
   const DigitalClockApp({super.key});
 
-  
-
-@override
-Widget build(BuildContext context) {
-  return ChangeNotifierProvider(
-    create: (_) => ClockSettings(),
-    child: MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const DigitalClockScreen(),
-        '/world-clock': (context) => const WorldClockScreen(),
-        '/settings': (context) => const SettingsScreen(),
-      },
-    ),
-  );
-}
-
-
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => ClockSettings(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          brightness: Brightness.dark,
+          scaffoldBackgroundColor: const Color(0xFF0F2027),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.cyanAccent,
+            brightness: Brightness.dark,
+          ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xFF203A43),
+            foregroundColor: Colors.white,
+            centerTitle: true,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.cyanAccent,
+              foregroundColor: Colors.black,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 18,
+                vertical: 12,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const DigitalClockScreen(),
+          '/world-clock': (context) => const WorldClockScreen(),
+          '/settings': (context) => const SettingsScreen(),
+        },
+      ),
+    );
+  }
 }
 
 class DigitalClockScreen extends StatefulWidget {
   const DigitalClockScreen({super.key});
 
   @override
-  State<DigitalClockScreen> createState() => _DigitalClockScreenState();
+  State<DigitalClockScreen> createState() =>
+      _DigitalClockScreenState();
 }
 
-class _DigitalClockScreenState extends State<DigitalClockScreen> {
-  
+class _DigitalClockScreenState extends State<DigitalClockScreen>
+    with SingleTickerProviderStateMixin {
   DateTime currentTime = DateTime.now();
   Timer? timer;
+
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        currentTime = DateTime.now();
-      });
-    });
+    // Experiment 8: Fade-in animation.
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+
+    _animationController.forward();
+
+    // Update the digital clock every second.
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) {
+        if (!mounted) return;
+
+        setState(() {
+          currentTime = DateTime.now();
+        });
+      },
+    );
   }
 
   @override
   void dispose() {
     timer?.cancel();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -83,22 +136,21 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
   }
 
   String getTime() {
-  final use24HourFormat =
-      context.read<ClockSettings>().is24HourFormat;
-  final hour = currentTime.hour;
+    final settings = context.read<ClockSettings>();
+    final hour = currentTime.hour;
 
-  if (use24HourFormat) {
-    return '${formatNumber(hour)}:'
+    if (settings.is24HourFormat) {
+      return '${formatNumber(hour)}:'
+          '${formatNumber(currentTime.minute)}:'
+          '${formatNumber(currentTime.second)}';
+    }
+
+    final displayHour = hour % 12 == 0 ? 12 : hour % 12;
+
+    return '${formatNumber(displayHour)}:'
         '${formatNumber(currentTime.minute)}:'
         '${formatNumber(currentTime.second)}';
   }
-
-  final displayHour = hour % 12 == 0 ? 12 : hour % 12;
-
-  return '${formatNumber(displayHour)}:'
-      '${formatNumber(currentTime.minute)}:'
-      '${formatNumber(currentTime.second)}';
-}
 
   String getPeriod() {
     return currentTime.hour >= 12 ? 'PM' : 'AM';
@@ -107,19 +159,22 @@ class _DigitalClockScreenState extends State<DigitalClockScreen> {
   @override
   Widget build(BuildContext context) {
     final clockSettings = context.watch<ClockSettings>();
-    final time = getTime();
     final screenWidth = MediaQuery.of(context).size.width;
 
-final clockFontSize = screenWidth < 600
-    ? 38.0
-    : screenWidth < 1024
-        ? 55.0
-        : 72.0;
+    // Experiment 3: Responsive breakpoints.
+    final clockFontSize = screenWidth < 600
+        ? 38.0
+        : screenWidth < 1024
+            ? 55.0
+            : 72.0;
 
-final cardPadding = screenWidth < 600 ? 20.0 : 35.0;
+    final cardPadding = screenWidth < 600 ? 20.0 : 35.0;
+
+    final time = getTime();
 
     final date =
-        '${currentTime.day} ${getMonth(currentTime.month)} ${currentTime.year}';
+        '${currentTime.day} ${getMonth(currentTime.month)} '
+        '${currentTime.year}';
 
     return Scaffold(
       body: Container(
@@ -141,97 +196,127 @@ final cardPadding = screenWidth < 600 ? 20.0 : 35.0;
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: EdgeInsets.all(cardPadding),
+                  padding: const EdgeInsets.all(16),
                   child: ElevatedButton.icon(
                     onPressed: () {
-  context.read<ClockSettings>().toggleTimeFormat();
-},
-icon: const Icon(Icons.access_time),
-label: Text(
-  clockSettings.is24HourFormat ? '12 Hour' : '24 Hour',
-),
+                      context
+                          .read<ClockSettings>()
+                          .toggleTimeFormat();
+                    },
+                    icon: const Icon(Icons.access_time),
+                    label: Text(
+                      clockSettings.is24HourFormat
+                          ? '12 Hour'
+                          : '24 Hour',
+                    ),
                   ),
                 ),
               ),
-
               Expanded(
-                child: Center(
-                  child: Container(
-                    margin: const EdgeInsets.all(25),
-                    padding: EdgeInsets.all(cardPadding),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.35),
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(
-                        color: Colors.white24,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(12),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 750,
                       ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.access_time_filled,
-                          color: Colors.cyanAccent,
-                          size: 55,
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        const Text(
-                          'DIGITAL CLOCK',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 3,
+                      child: FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.all(8),
+                          padding: EdgeInsets.all(cardPadding),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.35),
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: Colors.white24,
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.access_time_filled,
+                                color: Colors.cyanAccent,
+                                size: 55,
+                              ),
+                              const SizedBox(height: 20),
+                              const Text(
+                                'DIGITAL CLOCK',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 3,
+                                ),
+                              ),
+                              const SizedBox(height: 25),
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  time,
+                                  style: TextStyle(
+                                    fontSize: clockFontSize,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.cyanAccent,
+                                  ),
+                                ),
+                              ),
+                              if (!clockSettings.is24HourFormat)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Text(
+                                    getPeriod(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              const SizedBox(height: 20),
+                              Text(
+                                date,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              const SizedBox(height: 28),
+                              Wrap(
+                                alignment: WrapAlignment.center,
+                                spacing: 12,
+                                runSpacing: 12,
+                                children: [
+                                  ClockActionButton(
+                                    icon: Icons.public,
+                                    label: 'World Clock',
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/world-clock',
+                                      );
+                                    },
+                                  ),
+                                  ClockActionButton(
+                                    icon: Icons.settings,
+                                    label: 'Settings',
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/settings',
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-
-                        const SizedBox(height: 30),
-
-                        Text(
-                          time,
-                          style: TextStyle(
-                            fontSize: clockFontSize,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.cyanAccent,
-                          ),
-                        ),
-
-                        if (!clockSettings.is24HourFormat)
-                          
-Padding(
-  padding: const EdgeInsets.only(bottom: 20),
-  child: Wrap(
-    spacing: 12,
-    children: [
-      ElevatedButton.icon(
-        onPressed: () =>
-            Navigator.pushNamed(context, '/world-clock'),
-        icon: const Icon(Icons.public),
-        label: const Text('World Clock'),
-      ),
-      ElevatedButton.icon(
-        onPressed: () =>
-            Navigator.pushNamed(context, '/settings'),
-        icon: const Icon(Icons.settings),
-        label: const Text('Settings'),
-      ),
-    ],
-  ),
-),
-
-
-                        const SizedBox(height: 20),
-
-                        Text(
-                          date,
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -251,54 +336,57 @@ class WorldClockScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final now = DateTime.now();
 
+    final time =
+        '${now.hour.toString().padLeft(2, '0')}:'
+        '${now.minute.toString().padLeft(2, '0')}:'
+        '${now.second.toString().padLeft(2, '0')}';
+
     return Scaffold(
-      appBar: AppBar(title: const Text('World Clock')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.public, size: 60),
-            const SizedBox(height: 16),
-            Text(
-              'Local Time: ${now.hour.toString().padLeft(2, '0')}:'
-              '${now.minute.toString().padLeft(2, '0')}',
-              style: const TextStyle(fontSize: 24),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/settings'),
-              child: const Text('Open Settings'),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: const Text('World Clock'),
       ),
-    );
-  }
-}
-
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Clock Settings')),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.settings, size: 60),
-            const SizedBox(height: 16),
-            const Text(
-              'Digital Clock Settings',
-              style: TextStyle(fontSize: 22),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Go Back'),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.public,
+                size: 60,
+                color: Colors.cyanAccent,
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Local Time',
+                style: TextStyle(fontSize: 22),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                time,
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.cyanAccent,
+                ),
+              ),
+              const SizedBox(height: 24),
+              ClockActionButton(
+                icon: Icons.settings,
+                label: 'Open Settings',
+                onPressed: () {
+                  Navigator.pushNamed(context, '/settings');
+                },
+              ),
+              const SizedBox(height: 12),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Back to Clock'),
+              ),
+            ],
+          ),
         ),
       ),
     );
