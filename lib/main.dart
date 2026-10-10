@@ -3,7 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'services/world_time_service.dart';
 import 'providers/clock_settings.dart';
 import 'widgets/clock_action_button.dart';
 import 'screens/settings_screen.dart';
@@ -329,18 +329,33 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
   }
 }
 
-class WorldClockScreen extends StatelessWidget {
+
+class WorldClockScreen extends StatefulWidget {
   const WorldClockScreen({super.key});
 
   @override
+  State<WorldClockScreen> createState() => _WorldClockScreenState();
+}
+
+class _WorldClockScreenState extends State<WorldClockScreen> {
+  final WorldTimeService _worldTimeService = WorldTimeService();
+
+  late Future<Map<String, dynamic>> _timeFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _timeFuture = _worldTimeService.fetchWorldTime();
+  }
+
+  void _retryFetch() {
+    setState(() {
+      _timeFuture = _worldTimeService.fetchWorldTime();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-
-    final time =
-        '${now.hour.toString().padLeft(2, '0')}:'
-        '${now.minute.toString().padLeft(2, '0')}:'
-        '${now.second.toString().padLeft(2, '0')}';
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('World Clock'),
@@ -348,44 +363,105 @@ class WorldClockScreen extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.public,
-                size: 60,
-                color: Colors.cyanAccent,
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Local Time',
-                style: TextStyle(fontSize: 22),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                time,
-                style: const TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.cyanAccent,
-                ),
-              ),
-              const SizedBox(height: 24),
-              ClockActionButton(
-                icon: Icons.settings,
-                label: 'Open Settings',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/settings');
-                },
-              ),
-              const SizedBox(height: 12),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Back to Clock'),
-              ),
-            ],
+          child: FutureBuilder<Map<String, dynamic>>(
+            future: _timeFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 16),
+                    Text('Fetching time from REST API...'),
+                  ],
+                );
+              }
+
+              if (snapshot.hasError) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.cloud_off,
+                      size: 60,
+                      color: Colors.orangeAccent,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Unable to fetch time.',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      '${snapshot.error}',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton.icon(
+                      onPressed: _retryFetch,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Retry'),
+                    ),
+                  ],
+                );
+              }
+
+              final data = snapshot.data!;
+              final dateTimeText =
+                  data['datetime']?.toString() ?? 'Unavailable';
+              final timezone =
+                  data['timezone']?.toString() ?? 'Asia/Kolkata';
+              final utcOffset =
+                  data['utc_offset']?.toString() ?? 'Unavailable';
+
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.public,
+                    size: 60,
+                    color: Colors.cyanAccent,
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Time from REST API',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 22),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    timezone,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.cyanAccent,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    dateTimeText,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text('UTC offset: $utcOffset'),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: _retryFetch,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Refresh Time'),
+                  ),
+                  const SizedBox(height: 12),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Back to Clock'),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
