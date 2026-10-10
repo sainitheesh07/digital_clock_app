@@ -1,17 +1,16 @@
-# digital_clock_app
+## Experiment 9: REST API Integration
 
-A new Flutter project.
+**Aim:** To fetch data from a REST API and display it in a Flutter application.
 
-## Getting Started
+**Implementation:**
+- Used the `http` package to send GET requests.
+- Used `async` and `await` for asynchronous operations.
+- Parsed JSON responses using `jsonDecode()`.
+- Used `FutureBuilder` to manage loading, success, and error states.
+- Implemented Retry and Refresh Time buttons.
 
-This project is a starting point for a Flutter application.
+**Output:**
 
-A few resources to get you started if this is your first Flutter project:
+![World Clock REST API Output](screenshots/rest_api_world_clock.png)
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Result:** The application successfully fetched and displayed the Asia/Kolkata timezone, date/time, and UTC offset from a REST API.
