@@ -1,31 +1,28 @@
 # Digital Clock Flutter Application
-## **CS506PC – UI Design (Flutter Lab)**
-### *Comprehensive Final Project Implementation & Lab Experiments Demonstration*
+### *A Modern, Responsive, Animated Cross-Platform Timekeeping System*
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.27.x-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-3.13+-0175C2?logo=dart&logoColor=white)](https://dart.dev)
-[![Course](https://img.shields.io/badge/Course-CS506PC--UI_Design_(Flutter_Lab)-blueviolet)](#-prescribed-syllabus-concept-mapping)
-[![Textbook](https://img.shields.io/badge/Textbook-Beginning_Flutter_(Marco_L._Napoli)-teal)](https://www.wiley.com/en-us/Beginning+Flutter%3A+A+Hands+on+Guide+to+App+Development-p-9781119550822)
 [![State Management](https://img.shields.io/badge/State_Management-Provider_v6.1.5-blueviolet)](https://pub.dev/packages/provider)
 [![Tests](https://img.shields.io/badge/Tests-100%25_Passing-brightgreen)](test/widget_test.dart)
-[![Report](https://img.shields.io/badge/Project_Report-16_Sections_Complete-success)](PROJECT_REPORT.md)
+[![Platform](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web%20%7C%20Windows-blue)](https://flutter.dev/multi-platform)
+[![Project Report](https://img.shields.io/badge/Project_Report-16_Sections_Complete-success)](PROJECT_REPORT.md)
 
 ---
 
 ## 📌 Project Overview
 
-This repository contains the complete, production-ready implementation of the **Digital Clock Flutter Application**, engineered specifically to fulfill the requirements of **CS506PC – UI Design (Flutter Lab)**. 
+This repository contains the complete, production-ready implementation of the **Digital Clock Flutter Application**, integrating real-time synchronization, adaptive multi-screen layouts, reactive state management, fluid animations, REST API data ingestion, and automated testing into a cohesive cross-platform mobile and web application.
 
-Rather than presenting isolated snippets or a placeholder README, this project integrates the concepts from **all 10 prescribed lab experiments** into a cohesive, fully functioning cross-platform mobile and web application.
+Rather than presenting isolated snippets or placeholder code, this project integrates **all 10 core mobile UI engineering concepts** into a fully functioning application built with **Flutter & Dart**.
 
-> 📖 **Reference Textbook:**  
-> **Marco L. Napoli**, *Beginning Flutter: A Hands-on Guide to App Development*, John Wiley & Sons, Inc.
+> 📄 **Technical Report Note:** For the complete, formal 16-section technical report with methodology, day-wise progress log, architecture diagrams, and evaluation rubrics, please refer to [**PROJECT_REPORT.md**](PROJECT_REPORT.md).
 
 ---
 
 ## 🗺 Prescribed Syllabus Concept Mapping
 
-The table below maps each experiment from the **CS506PC syllabus** to its actual implementation and code evidence in this project:
+The table below maps each experiment from the prescribed syllabus to its actual implementation and code evidence in this project:
 
 | Exp # | Prescribed Syllabus Topic | Concepts Covered | Implementation in Digital Clock Project | Source Code Reference |
 | :---: | :--- | :--- | :--- | :--- |
@@ -501,10 +498,9 @@ flutter run -d windows
 
 ---
 
-## 🎓 Academic Submission Details
+## 🎓 Technical Project Information
 
-- **Course Code:** CS506PC – UI Design (Flutter Lab)
-- **Domain:** Cross-Platform Mobile Application Development
+- **Domain:** Cross-Platform Mobile Application Development (Flutter & Dart)
 - **Student Name:** G. N. V. Sai Nitheesh
 - **Academic Year:** 2026 – 2027
 - **Project Report:** See [**`PROJECT_REPORT.md`**](PROJECT_REPORT.md) for the complete 16-section technical report with Certificates, Acknowledgements, Day-Wise Progress, Learning Outcomes, and Evaluation Rubrics.
