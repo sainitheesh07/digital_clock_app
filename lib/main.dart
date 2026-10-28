@@ -1,18 +1,19 @@
 /// ============================================================================
-/// ONE-WEEK TECHNICAL PROJECT / FLUTTER VIRTUAL INTERNSHIP
-/// DIGITAL CLOCK FLUTTER APPLICATION
+/// CS506PC – UI Design (Flutter Lab)
+/// Final Technical Project: Digital Clock Flutter Application
+/// Textbook: Marco L. Napoli, Beginning Flutter: A Hands-on Guide to App Development
 /// ----------------------------------------------------------------------------
-/// Covers:
-/// - Experiment 1: Flutter Project Setup & Environment Configuration
-/// - Experiment 2: Basic UI Design & Core Widgets (Scaffold, AppBar, Column)
-/// - Experiment 3: Dynamic Real-Time Clock with Timer.periodic & DateTime
-/// - Experiment 4: Modern Dark Gradient Theme, Card Container & Typography
-/// - Experiment 5: Responsive Layout (MediaQuery breakpoints, FittedBox, Wrap)
-/// - Experiment 6: Multi-Screen Navigation & Named Routes
-/// - Experiment 7: State Management using Provider Pattern
-/// - Experiment 8: Fluid Startup Fade-In Animation
-/// - Experiment 9: REST API Integration (World Time Service & FutureBuilder)
-/// - Experiment 10: Unit Testing, Widget Testing & Debugging
+/// Prescribed Lab Syllabus Mapping:
+/// Experiment 1: a) Install Flutter & Dart SDK | b) Dart Basics Program (bin/dart_basics.dart)
+/// Experiment 2: a) Core Widgets (Text, Icon, Container) | b) Layouts (Row, Column, Stack)
+/// Experiment 3: a) Responsive UI | b) Media queries & Breakpoints (MediaQuery, FittedBox)
+/// Experiment 4: a) Navigator Screen Flow | b) Named Routes ('/', '/world-clock', '/settings')
+/// Experiment 5: a) Stateless & Stateful Widgets | b) State Management (setState & Provider)
+/// Experiment 6: a) Custom Widgets (ClockActionButton) | b) Themes & Custom Styles
+/// Experiment 7: a) Form with Input Fields | b) Form Validation (screens/settings_screen.dart)
+/// Experiment 8: a) Flutter Animation Framework | b) Multiple Animations (Fade + Slide)
+/// Experiment 9: a) Fetch REST API Data | b) Display Data with FutureBuilder (World Clock)
+/// Experiment 10: a) Unit & Widget Testing | b) Debugging & Static Analysis (widget_test.dart)
 /// ============================================================================
 
 import 'dart:async';
@@ -24,12 +25,14 @@ import 'providers/clock_settings.dart';
 import 'widgets/clock_action_button.dart';
 import 'screens/settings_screen.dart';
 
-// Experiment 1: Flutter Application Entry Point
+// Experiment 1(a): Application Entry Point & Flutter Engine Initialization
 void main() {
   runApp(const DigitalClockApp());
 }
 
-// Experiment 2 & 7: Root Widget with Provider State Management
+// Experiment 5(a): StatelessWidget Implementation
+// Experiment 5(b): Provider State Management (ChangeNotifierProvider)
+// Experiment 6(b): Global Material3 Theme Configuration
 class DigitalClockApp extends StatelessWidget {
   const DigitalClockApp({super.key});
 
@@ -68,7 +71,7 @@ class DigitalClockApp extends StatelessWidget {
             ),
           ),
         ),
-        // Experiment 6: Named Routes for Multi-Screen Navigation
+        // Experiment 4(b): Named Routes for Structured Screen Navigation
         initialRoute: '/',
         routes: {
           '/': (context) => const DigitalClockScreen(),
@@ -80,7 +83,7 @@ class DigitalClockApp extends StatelessWidget {
   }
 }
 
-// Experiment 3: Dynamic Real-Time Clock Screen using StatefulWidget
+// Experiment 5(a): StatefulWidget Implementation
 class DigitalClockScreen extends StatefulWidget {
   const DigitalClockScreen({super.key});
 
@@ -93,28 +96,41 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
   DateTime currentTime = DateTime.now();
   Timer? timer;
 
-  // Experiment 8: Fluid Fade-in Animation Controller
+  // Experiment 8(a & b): Animation Framework with Dual Fade and Slide Animations
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    // Experiment 8: Initialize fade-in animation
+    // Experiment 8(a): AnimationController initialization with 900ms duration
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
     );
 
+    // Experiment 8(b): Type 1 - Curved Fade Animation
     _fadeAnimation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeIn,
     );
 
+    // Experiment 8(b): Type 2 - Tween-based Slide Animation
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 0.12),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOutCubic,
+      ),
+    );
+
     _animationController.forward();
 
-    // Experiment 3: Periodic Timer updating clock every second
+    // Experiment 5(b): Periodic Timer updating clock state every 1000ms using setState()
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (_) {
@@ -139,18 +155,8 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
 
   String getMonth(int month) {
     const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December',
     ];
     return months[month - 1];
   }
@@ -177,11 +183,11 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
 
   @override
   Widget build(BuildContext context) {
-    // Experiment 7: Watch ClockSettings Provider for reactive UI updates
+    // Experiment 5(b): Watching ClockSettings provider model for reactive updates
     final clockSettings = context.watch<ClockSettings>();
-    final screenWidth = MediaQuery.of(context).size.width;
 
-    // Experiment 5: Responsive typography & card padding based on screen width
+    // Experiment 3(a & b): Responsive UI with MediaQuery Breakpoints
+    final screenWidth = MediaQuery.of(context).size.width;
     final clockFontSize = screenWidth < 600
         ? 38.0
         : screenWidth < 1024
@@ -196,7 +202,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
     return Scaffold(
       body: Container(
         width: double.infinity,
-        // Experiment 4: Linear Gradient Background
+        // Experiment 6(b): Styling with LinearGradient
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -209,9 +215,10 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
           ),
         ),
         child: SafeArea(
+          // Experiment 2(b): Column Layout Structure
           child: Column(
             children: [
-              // Top Action Bar: Quick 12H/24H Toggle
+              // Top Action Row
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
@@ -228,7 +235,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
                 ),
               ),
 
-              // Central Digital Clock Display
+              // Central Responsive Clock Container
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(12),
@@ -237,110 +244,150 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
                       constraints: const BoxConstraints(
                         maxWidth: 750,
                       ),
-                      // Experiment 8: Fade-in Animation
-                      child: FadeTransition(
-                        opacity: _fadeAnimation,
-                        // Experiment 4: Styled Container Card
-                        child: Container(
-                          width: double.infinity,
-                          margin: const EdgeInsets.all(8),
-                          padding: EdgeInsets.all(cardPadding),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.35),
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(
-                              color: Colors.white24,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.cyanAccent.withOpacity(0.08),
-                                blurRadius: 24,
-                                spreadRadius: 4,
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
+                      // Experiment 8(b): SlideTransition + FadeTransition Dual Animation
+                      child: SlideTransition(
+                        position: _slideAnimation,
+                        child: FadeTransition(
+                          opacity: _fadeAnimation,
+                          // Experiment 2(b): Stack Layout Layering
+                          child: Stack(
                             children: [
-                              const Icon(
-                                Icons.access_time_filled,
-                                color: Colors.cyanAccent,
-                                size: 55,
-                              ),
-                              const SizedBox(height: 20),
-                              // Reactive Clock Title from Provider
-                              Text(
-                                clockSettings.clockLabel,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 3,
-                                ),
-                              ),
-                              const SizedBox(height: 25),
-                              // Experiment 5: Responsive FittedBox for Time Text
-                              FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  time,
-                                  style: TextStyle(
-                                    fontSize: clockFontSize,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.cyanAccent,
+                              // Background decorative layer inside Stack
+                              Positioned(
+                                right: -25,
+                                bottom: -25,
+                                child: Opacity(
+                                  opacity: 0.04,
+                                  child: const Icon(
+                                    Icons.alarm,
+                                    size: 200,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
-                              if (!clockSettings.is24HourFormat)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    getPeriod(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+
+                              // Foreground Clock Card
+                              Container(
+                                width: double.infinity,
+                                margin: const EdgeInsets.all(8),
+                                padding: EdgeInsets.all(cardPadding),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withValues(alpha: 0.35),
+                                  borderRadius: BorderRadius.circular(25),
+                                  border: Border.all(
+                                    color: Colors.white24,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.cyanAccent.withOpacity(0.08),
+                                      blurRadius: 24,
+                                      spreadRadius: 4,
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              const SizedBox(height: 20),
-                              Text(
-                                date,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 18,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    // Experiment 2(a): Icon Widget
+                                    const Icon(
+                                      Icons.access_time_filled,
+                                      color: Colors.cyanAccent,
+                                      size: 55,
+                                    ),
+                                    const SizedBox(height: 16),
+
+                                    // Experiment 2(b): Row Layout Structure for Banner
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.label_outline,
+                                          size: 18,
+                                          color: Colors.cyanAccent,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          clockSettings.clockLabel,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 3,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 25),
+
+                                    // Experiment 3(a): Responsive FittedBox scaling for clock text
+                                    FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        time,
+                                        style: TextStyle(
+                                          fontSize: clockFontSize,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.cyanAccent,
+                                        ),
+                                      ),
+                                    ),
+                                    if (!clockSettings.is24HourFormat)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Text(
+                                          getPeriod(),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    const SizedBox(height: 20),
+
+                                    // Date Display
+                                    Text(
+                                      date,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 28),
+
+                                    // Experiment 6(a): Reusable Custom Widgets (ClockActionButton)
+                                    // Experiment 4(a & b): Navigator.pushNamed Multi-Screen Navigation
+                                    Wrap(
+                                      alignment: WrapAlignment.center,
+                                      spacing: 12,
+                                      runSpacing: 12,
+                                      children: [
+                                        ClockActionButton(
+                                          icon: Icons.public,
+                                          label: 'World Clock',
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                              context,
+                                              '/world-clock',
+                                            );
+                                          },
+                                        ),
+                                        ClockActionButton(
+                                          icon: Icons.settings,
+                                          label: 'Settings',
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                              context,
+                                              '/settings',
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(height: 28),
-                              // Experiment 5 & 6: Action Navigation Buttons
-                              Wrap(
-                                alignment: WrapAlignment.center,
-                                spacing: 12,
-                                runSpacing: 12,
-                                children: [
-                                  ClockActionButton(
-                                    icon: Icons.public,
-                                    label: 'World Clock',
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        '/world-clock',
-                                      );
-                                    },
-                                  ),
-                                  ClockActionButton(
-                                    icon: Icons.settings,
-                                    label: 'Settings',
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        '/settings',
-                                      );
-                                    },
-                                  ),
-                                ],
                               ),
                             ],
                           ),
@@ -358,7 +405,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
   }
 }
 
-// Experiment 9: REST API World Clock Screen
+// Experiment 9(a & b): REST API Integration Screen with FutureBuilder
 class WorldClockScreen extends StatefulWidget {
   const WorldClockScreen({super.key});
 

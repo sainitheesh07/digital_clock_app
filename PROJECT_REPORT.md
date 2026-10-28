@@ -1,24 +1,25 @@
 # TECHNICAL PROJECT REPORT
+### CS506PC – UI DESIGN (FLUTTER LAB)
 ### DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING
-### ONE-WEEK TECHNICAL INTERNSHIP / CAPSTONE PROJECT
 
 ---
 
 # DIGITAL CLOCK FLUTTER APPLICATION
 ## **REAL-TIME SYNC, STATE MANAGEMENT, ANIMATIONS, AND REST API INTEGRATION**
+### *Implementation and Demonstration of Prescribed Lab Experiments 1 through 10*
+**Textbook Reference:** Marco L. Napoli, *Beginning Flutter: A Hands-on Guide to App Development*, Wiley.
 
-**Submitted in partial fulfillment of the requirements for the One-Week Technical Project / Internship**
+**Submitted in partial fulfillment of the requirements for CS506PC – UI Design (Flutter Lab)**
 
 ---
 
 ### **Submitted by:**
 - **Student Name:** G. N. V. Sai Nitheesh
 - **Roll Number:** [Student Roll Number / University Hall Ticket]
-- **Branch and Year:** Department of Computer Science and Engineering (CSE), B.Tech
+- **Branch and Year:** Department of Computer Science and Engineering (CSE), B.Tech IV Year
 - **Academic Year:** 2026 – 2027
-- **Project Duration:** 7 Days (One-Week Intensive Technical Project)
+- **Course Code & Title:** CS506PC – UI Design (Flutter Lab)
 - **Project Guide / Mentor:** Faculty Mentor / Technical Guide, Dept. of CSE
-- **Organization / Training Partner:** EduSkills Foundation & AICTE Virtual Internship
 - **Submitted to:** Department of Computer Science and Engineering
 
 ---
@@ -199,126 +200,64 @@ stateDiagram-v2
 
 ---
 
-## 10. IMPLEMENTATION AND RESULTS
+## 10. IMPLEMENTATION AND RESULTS (EXPERIMENTS 1 – 10)
 
-### **Experiment 1: Flutter Environment Setup & Project Initialization**
-- **Aim:** To configure the Flutter development environment, verify system dependencies using `flutter doctor`, and initialize the `digital_clock_app` project.
-- **Key Concepts:** Flutter SDK, Dart SDK, `pubspec.yaml`, Android Toolchain, Git version control.
-- **Code Extract:**
-  ```yaml
-  name: digital_clock_app
-  description: "A new Flutter project."
-  environment:
-    sdk: ^3.13.0-279.0.dev
-  dependencies:
-    flutter:
-      sdk: flutter
-    cupertino_icons: ^1.0.8
-    provider: ^6.1.5+1
-    http: ^1.6.0
-  ```
-- **Screenshot / Output:**
-  
-  ![Experiment 1: Project Setup](screenshots/exp01_project_setup.png)
-- **Result:** Environment verified with zero defects; Flutter project scaffold successfully initialized with all core dependencies.
-
----
-
-### **Experiment 2: Basic UI Design & Core Widgets Hierarchy**
-- **Aim:** To build the initial visual interface of the clock using Flutter's core declarative layout widgets.
-- **Key Concepts:** `StatelessWidget`, `Scaffold`, `AppBar`, `Column`, `Center`, `Container`, `TextStyle`.
-- **Code Extract:**
+### **Experiment 1: a) Install Flutter & Dart SDK | b) Dart Language Basics**
+- **Aim:** 1(a) To install and configure Flutter and Dart SDK. 1(b) To write a simple Dart program demonstrating language basics, OOP, collections, and async programming.
+- **Key Concepts:** Flutter SDK, Dart SDK, `pubspec.yaml`, OOP classes, collections (`List`, `Map`), async/await.
+- **Code Extract ([`bin/dart_basics.dart`](bin/dart_basics.dart)):**
   ```dart
-  class DigitalClockApp extends StatelessWidget {
-    const DigitalClockApp({super.key});
-    @override
-    Widget build(BuildContext context) {
-      return MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(title: const Text('Digital Clock')),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('DIGITAL CLOCK', style: TextStyle(fontSize: 18)),
-                Text('10:00:00', style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        ),
-      );
+  class TimeModel {
+    final int hour, minute, second;
+    final String label;
+    TimeModel({required this.hour, required this.minute, required this.second, this.label = 'CLOCK'});
+
+    String to12HourFormat() {
+      final h = (hour % 12 == 0 ? 12 : hour % 12).toString().padLeft(2, '0');
+      return '$h:${minute.toString().padLeft(2, '0')}:${second.toString().padLeft(2, '0')} ${hour >= 12 ? "PM" : "AM"}';
     }
   }
   ```
 - **Screenshot / Output:**
   
-  ![Experiment 2: Basic UI](screenshots/exp02_basic_ui.png)
-- **Result:** The foundational layout widgets rendered a centered visual hierarchy conforming to Material Design specifications.
+  ![Experiment 1: SDK & Dart Basics](screenshots/exp01_sdk_and_dart_basics.png)
+- **Result:** Flutter toolchain verified; Dart basics program executed successfully with clean console output.
 
 ---
 
-### **Experiment 3: Real-Time Dynamic Clock with Timer.periodic**
-- **Aim:** To convert the static UI into a live, ticking digital clock using `StatefulWidget`, `DateTime`, and a periodic timer.
-- **Key Concepts:** `StatefulWidget`, `initState()`, `dispose()`, `Timer.periodic`, `setState()`, `padLeft()`.
-- **Code Extract:**
+### **Experiment 2: a) Flutter Widgets (Text, Icon, Container) | b) Layouts (Row, Column, Stack)**
+- **Aim:** 2(a) To explore core Flutter widgets (`Text`, `Icon`, `Container`). 2(b) To implement structured layouts using `Row`, `Column`, and `Stack`.
+- **Key Concepts:** `Text`, `Icon`, `Container`, `Column` (vertical layout), `Row` (horizontal alignment), `Stack` (layered background glow).
+- **Code Extract ([`lib/main.dart`](lib/main.dart)):**
   ```dart
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (!mounted) return;
-      setState(() {
-        currentTime = DateTime.now();
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
-  }
-  ```
-- **Screenshot / Output:**
-  
-  ![Experiment 3: Real-Time Clock](screenshots/exp03_realtime_clock.png)
-- **Result:** The clock dynamically samples system time every 1000 milliseconds, refreshing the seconds, minutes, hours, and date in real time without memory leakage.
-
----
-
-### **Experiment 4: Modern Dark Gradient Theme, Card Container & Typography**
-- **Aim:** To style the clock interface with an ambient dark gradient background, glowing cyan accents, and rounded card elevation.
-- **Key Concepts:** `BoxDecoration`, `LinearGradient`, `BoxShadow`, `ColorScheme`, `ThemeData.dark()`.
-- **Code Extract:**
-  ```dart
-  Container(
-    decoration: const BoxDecoration(
-      gradient: LinearGradient(
-        colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
+  Stack(
+    children: [
+      Positioned(right: -25, bottom: -25, child: Opacity(opacity: 0.04, child: Icon(Icons.alarm, size: 200))),
+      Container(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [Icon(Icons.label_outline), SizedBox(width: 8), Text(clockSettings.clockLabel)],
+            ),
+            FittedBox(child: Text(time)),
+          ],
+        ),
       ),
-    ),
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.35),
-        borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: Colors.white24),
-      ),
-    ),
+    ],
   )
   ```
 - **Screenshot / Output:**
   
-  ![Experiment 4: Styled Clock UI](screenshots/exp04_styled_clock.png)
-- **Result:** Delivered a visually striking, professional glassmorphism interface with high contrast readability.
+  ![Experiment 2: Widgets & Layouts](screenshots/exp02_widgets_and_layouts.png)
+- **Result:** Demonstrated complete composition of `Text`, `Icon`, `Container`, `Row`, `Column`, and `Stack` in a unified visual layout.
 
 ---
 
-### **Experiment 5: Responsive Layout Design across Screen Breakpoints**
-- **Aim:** To make the digital clock UI automatically adapt its font sizes, padding, and button arrangements across mobile, tablet, and desktop viewports.
-- **Key Concepts:** `MediaQuery`, `FittedBox`, `ConstrainedBox`, `Wrap`, Responsive Breakpoints.
-- **Code Extract:**
+### **Experiment 3: a) Responsive UI | b) Media Queries & Breakpoints**
+- **Aim:** 3(a) To design a responsive UI that adapts to different screen sizes. 3(b) To implement media queries and breakpoints for responsiveness.
+- **Key Concepts:** `MediaQuery.of(context).size.width`, `FittedBox`, breakpoints: Mobile (<600px), Tablet (600–1024px), Desktop (>1024px).
+- **Code Extract ([`lib/main.dart`](lib/main.dart)):**
   ```dart
   final screenWidth = MediaQuery.of(context).size.width;
   final clockFontSize = screenWidth < 600 ? 38.0 : screenWidth < 1024 ? 55.0 : 72.0;
@@ -331,35 +270,38 @@ stateDiagram-v2
   ```
 - **Screenshot / Output:**
   
-  ![Experiment 5: Responsive Layout](screenshots/exp05_responsive_layout.png)
-- **Result:** The UI prevents text clipping or overflow across all display aspect ratios from 320px smartphones to 4K displays.
+  ![Experiment 3: Responsive Breakpoints](screenshots/exp03_responsive_breakpoints.png)
+- **Result:** The UI automatically scales font sizes and card margins across mobile, tablet, and desktop viewports with 0 overflow exceptions.
 
 ---
 
-### **Experiment 6: Multi-Screen Navigation & Named Routes Architecture**
-- **Aim:** To architect a multi-screen Flutter application with structured named routes for Home, World Clock, and Settings.
-- **Key Concepts:** `Navigator.pushNamed`, `Navigator.pop`, `initialRoute`, Route Table dictionary.
-- **Code Extract:**
+### **Experiment 4: a) Screen Navigation with Navigator | b) Named Routes**
+- **Aim:** 4(a) To set up navigation between screens using `Navigator`. 4(b) To implement navigation with named routes.
+- **Key Concepts:** `Navigator.pushNamed`, `Navigator.pop`, named routes table (`/`, `/world-clock`, `/settings`).
+- **Code Extract ([`lib/main.dart`](lib/main.dart)):**
   ```dart
-  routes: {
-    '/': (context) => const DigitalClockScreen(),
-    '/world-clock': (context) => const WorldClockScreen(),
-    '/settings': (context) => const SettingsScreen(),
-  },
-  // In Button callback:
+  MaterialApp(
+    initialRoute: '/',
+    routes: {
+      '/': (context) => const DigitalClockScreen(),
+      '/world-clock': (context) => const WorldClockScreen(),
+      '/settings': (context) => const SettingsScreen(),
+    },
+  );
+  // Navigation Call:
   Navigator.pushNamed(context, '/world-clock');
   ```
 - **Screenshot / Output:**
   
-  ![Experiment 6: Navigation Routes](screenshots/exp06_navigation_routes.png)
-- **Result:** Smooth navigation and back-stack history enabled across all screens without state corruption.
+  ![Experiment 4: Navigation & Routes](screenshots/exp04_navigation_named_routes.png)
+- **Result:** Seamless transitions between the primary clock, world clock, and settings views with history preservation.
 
 ---
 
-### **Experiment 7: Global State Management using Provider Pattern**
-- **Aim:** To manage application state centrally using the Provider pattern, allowing real-time synchronization of time format and clock banner title.
-- **Key Concepts:** `ChangeNotifier`, `ChangeNotifierProvider`, `context.watch<T>()`, `context.read<T>()`, `notifyListeners()`.
-- **Code Extract:**
+### **Experiment 5: a) Stateful & Stateless Widgets | b) State Management (setState & Provider)**
+- **Aim:** 5(a) To understand stateless and stateful widget lifecycles. 5(b) To implement state management using `setState` and `Provider`.
+- **Key Concepts:** `StatelessWidget`, `StatefulWidget`, `Timer.periodic`, `setState()`, `ChangeNotifierProvider`, `notifyListeners()`.
+- **Code Extract ([`lib/providers/clock_settings.dart`](lib/providers/clock_settings.dart)):**
   ```dart
   class ClockSettings extends ChangeNotifier {
     bool _is24HourFormat = true;
@@ -372,7 +314,6 @@ stateDiagram-v2
       _is24HourFormat = !_is24HourFormat;
       notifyListeners();
     }
-
     void setClockLabel(String newLabel) {
       _clockLabel = newLabel.trim();
       notifyListeners();
@@ -381,72 +322,117 @@ stateDiagram-v2
   ```
 - **Screenshot / Output:**
   
-  ![Experiment 7: Provider State](screenshots/exp07_provider_state.png)
-- **Result:** Updates in the Settings screen instantly reflect on the main clock face without prop drilling or unnecessary widget rebuilds.
+  ![Experiment 5: State Management](screenshots/exp05_state_management.png)
+- **Result:** Real-time 1-second ticks handled via `setState()`, and global application preferences synchronized via `Provider`.
 
 ---
 
-### **Experiment 8: Fluid Startup Fade-In Animation**
-- **Aim:** To implement a smooth, hardware-accelerated fade-in transition when the clock screen is launched.
-- **Key Concepts:** `AnimationController`, `CurvedAnimation`, `FadeTransition`, `SingleTickerProviderStateMixin`.
-- **Code Extract:**
+### **Experiment 6: a) Custom Widgets | b) Themes and Custom Styles**
+- **Aim:** 6(a) To create reusable custom widgets for UI elements. 6(b) To apply unified styling using themes and custom styles.
+- **Key Concepts:** `ClockActionButton` custom widget, `ThemeData.dark()`, `LinearGradient`, glassmorphic card borders, `BoxShadow`.
+- **Code Extract ([`lib/widgets/clock_action_button.dart`](lib/widgets/clock_action_button.dart)):**
   ```dart
-  _animationController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 900),
-  );
-  _fadeAnimation = CurvedAnimation(
-    parent: _animationController,
-    curve: Curves.easeIn,
-  );
-  _animationController.forward();
+  class ClockActionButton extends StatelessWidget {
+    final IconData icon; final String label; final VoidCallback onPressed;
+    const ClockActionButton({required this.icon, required this.label, required this.onPressed});
+
+    @override
+    Widget build(BuildContext context) {
+      return ElevatedButton.icon(onPressed: onPressed, icon: Icon(icon), label: Text(label));
+    }
+  }
   ```
 - **Screenshot / Output:**
   
-  ![Experiment 8: Animation Fade](screenshots/exp08_animation_fade.png)
-- **Result:** Produced a 60 FPS ease-in opacity transition upon application startup, enhancing perceived responsiveness.
+  ![Experiment 6: Custom Widgets & Themes](screenshots/exp06_custom_widgets_and_themes.png)
+- **Result:** High reusability and professional dark aesthetic featuring cyan glowing accents.
 
 ---
 
-### **Experiment 9: REST API World Clock Integration & Asynchronous Networking**
-- **Aim:** To fetch, deserialize, and display live world time, timezone metadata, and UTC offset from a public REST API.
-- **Key Concepts:** `http.get`, `jsonDecode`, `async` / `await`, `FutureBuilder`, error states, Retry mechanisms.
-- **Code Extract:**
+### **Experiment 7: a) Form with Input Fields | b) Form Validation & Error Handling**
+- **Aim:** 7(a) To design an interactive form with input fields. 7(b) To implement form validation and error handling.
+- **Key Concepts:** `Form`, `GlobalKey<FormState>`, `TextFormField`, `SwitchListTile`, validation error strings, `SnackBar`.
+- **Code Extract ([`lib/screens/settings_screen.dart`](lib/screens/settings_screen.dart)):**
+  ```dart
+  TextFormField(
+    controller: _labelController,
+    validator: (value) {
+      final label = value?.trim() ?? '';
+      if (label.isEmpty) return 'Please enter a clock label';
+      if (label.length < 3) return 'Label must contain at least 3 characters';
+      return null;
+    },
+  );
+  ```
+- **Screenshot / Output:**
+  
+  ![Experiment 7: Forms & Validation](screenshots/exp07_forms_and_validation.png)
+- **Result:** Validates user text input and updates Provider state with immediate visual feedback.
+
+---
+
+### **Experiment 8: a) Flutter Animation Framework | b) Multiple Animations (Fade + Slide)**
+- **Aim:** 8(a) To add animations using Flutter's animation framework. 8(b) To experiment with multiple animation types (Fade and Slide).
+- **Key Concepts:** `AnimationController`, `CurvedAnimation`, `FadeTransition` (opacity), `SlideTransition` (offset tween).
+- **Code Extract ([`lib/main.dart`](lib/main.dart)):**
+  ```dart
+  _fadeAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+  _slideAnimation = Tween<Offset>(begin: const Offset(0.0, 0.12), end: Offset.zero)
+      .animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic));
+
+  SlideTransition(
+    position: _slideAnimation,
+    child: FadeTransition(opacity: _fadeAnimation, child: ClockCard()),
+  )
+  ```
+- **Screenshot / Output:**
+  
+  ![Experiment 8: Fade & Slide Animations](screenshots/exp08_fade_slide_animations.png)
+- **Result:** Smooth 60 FPS dual slide-up and fade-in startup transition.
+
+---
+
+### **Experiment 9: a) Fetch Data from REST API | b) Display Data with FutureBuilder**
+- **Aim:** 9(a) To fetch live data from a public REST API. 9(b) To display the fetched data in the UI using asynchronous widgets.
+- **Key Concepts:** `http.get`, `jsonDecode`, `FutureBuilder`, connection state handling (waiting, error, data), manual refresh.
+- **Code Extract ([`lib/services/world_time_service.dart`](lib/services/world_time_service.dart)):**
   ```dart
   Future<Map<String, dynamic>> fetchWorldTime() async {
     final response = await http
         .get(Uri.parse('https://worldtimeapi.org/api/timezone/Asia/Kolkata'))
         .timeout(const Duration(seconds: 8));
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body) as Map<String, dynamic>;
-    }
+    if (response.statusCode == 200) return jsonDecode(response.body);
     throw Exception('Failed to load time: ${response.statusCode}');
   }
   ```
 - **Screenshot / Output:**
   
-  ![Experiment 9: REST API World Clock](screenshots/exp09_rest_api_world_clock.png)
-- **Result:** Successfully connected to the remote API, displaying live `Asia/Kolkata` date/time and UTC offset (+05:30) with asynchronous loading indicators and fallback handling.
+  ![Experiment 9: REST API Integration](screenshots/exp09_rest_api_integration.png)
+- **Result:** Accurately fetched and displayed `Asia/Kolkata` time and UTC offset (+05:30) with fallback recovery.
 
 ---
 
-### **Experiment 10: Unit Testing, Widget Testing & Debugging**
-- **Aim:** To write automated widget tests ensuring visual accuracy, state toggles, and navigation integrity, validated via static analysis.
-- **Key Concepts:** `flutter_test`, `testWidgets()`, `expect()`, `find.text()`, `find.byType()`, `tester.tap()`, `flutter analyze`.
-- **Code Extract:**
+### **Experiment 10: a) Unit & Widget Testing | b) Debugging Tools**
+- **Aim:** 10(a) To author automated unit tests for UI components. 10(b) To utilize Flutter debugging tools to identify and fix issues.
+- **Key Concepts:** `flutter_test`, `testWidgets()`, `expect()`, `find.text()`, `tester.tap()`, `flutter analyze`.
+- **Code Extract ([`test/widget_test.dart`](test/widget_test.dart)):**
   ```dart
-  testWidgets('Digital clock screen displays correctly', (tester) async {
+  testWidgets('Settings form updates clock banner label and persists via Provider', (tester) async {
     await tester.pumpWidget(const DigitalClockApp());
-    expect(find.text('DIGITAL CLOCK'), findsOneWidget);
-    expect(find.text('12 Hour'), findsOneWidget);
-    expect(find.text('World Clock'), findsOneWidget);
-    expect(find.text('Settings'), findsOneWidget);
+    await tester.tap(find.text('Settings'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextFormField), 'OFFICE CLOCK');
+    await tester.tap(find.text('Save Settings'));
+    await tester.pump();
+    tester.state<NavigatorState>(find.byType(Navigator)).pop();
+    await tester.pumpAndSettle();
+    expect(find.text('OFFICE CLOCK'), findsOneWidget);
   });
   ```
 - **Screenshot / Output:**
   
-  ![Experiment 10: Automated Testing](screenshots/exp10_widget_testing.png)
-- **Result:** `flutter analyze` completed with 0 warnings; all 5 widget test cases passed successfully in 2.1 seconds.
+  ![Experiment 10: Automated Testing & Debugging](screenshots/exp10_unit_testing_debugging.png)
+- **Result:** `flutter analyze` verified 0 issues; all 5 widget test cases passed successfully.
 
 ---
 
@@ -489,12 +475,13 @@ The **One-Week Technical Project on Digital Clock Flutter Application** has been
 
 ## 14. REFERENCES
 
-1. Google Flutter Documentation, *"Flutter Architectural Overview & Widget Catalog,"* [https://docs.flutter.dev](https://docs.flutter.dev), Accessed Oct 2026.
-2. Remi Rousselet, *"Provider Package for Flutter State Management,"* Pub.dev, [https://pub.dev/packages/provider](https://pub.dev/packages/provider).
-3. Dart Language Specification, *"Asynchronous Programming: Futures, async, await,"* [https://dart.dev/codelabs/async-await](https://dart.dev/codelabs/async-await).
-4. World Time API, *"Simple JSON REST API for Timezone Calculations,"* [https://worldtimeapi.org](https://worldtimeapi.org).
-5. Flutter Testing Guide, *"An Introduction to Widget Testing,"* [https://docs.flutter.dev/cookbook/testing/widget/introduction](https://docs.flutter.dev/cookbook/testing/widget/introduction).
-6. GitHub Repository Source: `https://github.com/sainitheesh07/digital_clock_app`.
+1. Marco L. Napoli, *Beginning Flutter: A Hands-on Guide to App Development*, John Wiley & Sons, Inc., ISBN: 978-1-119-55082-2.
+2. Google Flutter Documentation, *"Flutter Architectural Overview & Widget Catalog,"* [https://docs.flutter.dev](https://docs.flutter.dev), Accessed Oct 2026.
+3. Remi Rousselet, *"Provider Package for Flutter State Management,"* Pub.dev, [https://pub.dev/packages/provider](https://pub.dev/packages/provider).
+4. Dart Language Specification, *"Asynchronous Programming: Futures, async, await,"* [https://dart.dev/codelabs/async-await](https://dart.dev/codelabs/async-await).
+5. World Time API, *"Simple JSON REST API for Timezone Calculations,"* [https://worldtimeapi.org](https://worldtimeapi.org).
+6. Flutter Testing Guide, *"An Introduction to Widget Testing,"* [https://docs.flutter.dev/cookbook/testing/widget/introduction](https://docs.flutter.dev/cookbook/testing/widget/introduction).
+7. GitHub Repository Source: `https://github.com/sainitheesh07/digital_clock_app`.
 
 ---
 
@@ -519,18 +506,18 @@ fd771be Create basic digital clock UI
 
 ### 15.2 Screenshot Evidence Gallery
 
-| Experiment | Title | Screenshot Artifact |
+| Experiment | CS506PC Prescribed Topic | Screenshot Artifact |
 | :---: | :--- | :--- |
-| **Exp 1** | Project Setup & Flutter Doctor | `screenshots/exp01_project_setup.png` |
-| **Exp 2** | Basic UI Layout & Hierarchy | `screenshots/exp02_basic_ui.png` |
-| **Exp 3** | Real-Time Dynamic Clock | `screenshots/exp03_realtime_clock.png` |
-| **Exp 4** | Dark Gradient Theme & UI Design | `screenshots/exp04_styled_clock.png` |
-| **Exp 5** | Responsive Layout Breakpoints | `screenshots/exp05_responsive_layout.png` |
-| **Exp 6** | Named Routes & Navigation | `screenshots/exp06_navigation_routes.png` |
-| **Exp 7** | Provider State Management | `screenshots/exp07_provider_state.png` |
-| **Exp 8** | Startup Fade-In Animation | `screenshots/exp08_animation_fade.png` |
-| **Exp 9** | REST API World Clock Sync | `screenshots/exp09_rest_api_world_clock.png` |
-| **Exp 10** | Automated Widget Testing | `screenshots/exp10_widget_testing.png` |
+| **Exp 1** | SDK Installation & Dart Program Basics | `screenshots/exp01_sdk_and_dart_basics.png` |
+| **Exp 2** | Core Widgets & Layouts (Row, Column, Stack) | `screenshots/exp02_widgets_and_layouts.png` |
+| **Exp 3** | Responsive UI, Media Queries & Breakpoints | `screenshots/exp03_responsive_breakpoints.png` |
+| **Exp 4** | Screen Navigation with Navigator & Named Routes | `screenshots/exp04_navigation_named_routes.png` |
+| **Exp 5** | Stateful & Stateless Widgets + setState & Provider | `screenshots/exp05_state_management.png` |
+| **Exp 6** | Custom Widgets & Themes/Custom Styles | `screenshots/exp06_custom_widgets_and_themes.png` |
+| **Exp 7** | Form Design with Input Fields & Form Validation | `screenshots/exp07_forms_and_validation.png` |
+| **Exp 8** | Flutter Animation Framework (Fade + Slide) | `screenshots/exp08_fade_slide_animations.png` |
+| **Exp 9** | REST API Integration & FutureBuilder Data Display | `screenshots/exp09_rest_api_integration.png` |
+| **Exp 10** | Unit Testing for UI Components & Debugging Tools | `screenshots/exp10_unit_testing_debugging.png` |
 
 ---
 
