@@ -6,17 +6,17 @@
 [![Provider](https://img.shields.io/badge/State_Management-Provider_v6.1.5-blueviolet)](https://pub.dev/packages/provider)
 [![Tests](https://img.shields.io/badge/Tests-100%25_Passing-brightgreen)](test/widget_test.dart)
 [![Platform](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web%20%7C%20Windows-blue)](https://flutter.dev/multi-platform)
-[![Institution](https://img.shields.io/badge/ACE_Engineering_College-CSE_Dept-orange)](PROJECT_REPORT.md)
+[![Project Report](https://img.shields.io/badge/Project_Report-16_Sections_Complete-success)](PROJECT_REPORT.md)
 
 ---
 
 ## 📌 Executive Summary
 
-Developed as part of the **One-Week Technical Project / EduSkills Flutter Virtual Internship** at **ACE Engineering College**, this repository features a production-ready **Digital Clock Application** built using **Flutter & Dart**. 
+Developed as part of the **One-Week Technical Project / EduSkills Flutter Virtual Internship** under the **Department of Computer Science and Engineering**, this repository features a production-ready **Digital Clock Application** built using **Flutter & Dart**. 
 
 The application demonstrates real-time dynamic clock updates, adaptive responsive design across mobile and desktop breakpoints, fluid hardware-accelerated animations, centralized state management with the **Provider** pattern, multi-screen named routing, asynchronous **REST API** integration to fetch live world time data, and automated widget testing.
 
-> 📄 **Academic Submission Note:** For the complete, formal academic project report formatted strictly per ACE Engineering College guidelines, please refer to [**PROJECT_REPORT.md**](PROJECT_REPORT.md).
+> 📄 **Technical Report Note:** For the complete, formal 16-section technical report with methodology, day-wise progress log, architecture diagrams, and evaluation rubrics, please refer to [**PROJECT_REPORT.md**](PROJECT_REPORT.md).
 
 ---
 
@@ -343,7 +343,7 @@ digital_clock_app/
 │   └── exp10_widget_testing.png
 ├── test/
 │   └── widget_test.dart       # Automated unit & widget test suite
-├── PROJECT_REPORT.md          # Formal ACE Engineering College Technical Project Report
+├── PROJECT_REPORT.md          # Formal Technical Internship & Capstone Project Report
 ├── pubspec.yaml               # Project dependencies and asset definitions
 └── README.md                  # Comprehensive GitHub project documentation
 ```
@@ -417,16 +417,15 @@ flutter test --reporter expanded
 
 ---
 
-## 🎓 Academic Project Information
+## 🎓 Technical Project Information
 
-- **Institution:** ACE Engineering College (An Autonomous Institution), Hyderabad, Telangana
-- **Department:** Department of Computer Science and Engineering (CSE)
 - **Program:** One-Week Technical Project / EduSkills Flutter Virtual Internship
+- **Domain:** Mobile Application Development using Flutter & Dart
+- **Department:** Department of Computer Science and Engineering (CSE)
 - **Student Name:** G. N. V. Sai Nitheesh
-- **Roll Number:** 21AG1A05XX
 - **Academic Year:** 2026 – 2027
 - **Project Duration:** 7 Days (October 2026)
-- **Documentation:** See [PROJECT_REPORT.md](PROJECT_REPORT.md) for the complete 16-section technical report including Certificate, Acknowledgements, Methodology, and Mentor Evaluation Sheet.
+- **Full Report:** See [PROJECT_REPORT.md](PROJECT_REPORT.md) for the complete 16-section technical report including Certificate, Acknowledgements, Methodology, and Mentor Evaluation Sheet.
 
 ---
 

@@ -1,5 +1,5 @@
 /// ============================================================================
-/// ACE ENGINEERING COLLEGE - ONE-WEEK TECHNICAL PROJECT
+/// ONE-WEEK TECHNICAL PROJECT / FLUTTER VIRTUAL INTERNSHIP
 /// DIGITAL CLOCK FLUTTER APPLICATION
 /// ----------------------------------------------------------------------------
 /// Covers:

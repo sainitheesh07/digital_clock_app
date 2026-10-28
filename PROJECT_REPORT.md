@@ -1,12 +1,11 @@
-# ACE ENGINEERING COLLEGE
-### (An Autonomous Institution - Affiliated to JNTUH, Accredited by NAAC & NBA)
-### Ankushapur, Ghatkesar, Medchal-Malkajgiri District, Telangana - 501301
+# TECHNICAL PROJECT REPORT
+### DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING
+### ONE-WEEK TECHNICAL INTERNSHIP / CAPSTONE PROJECT
 
 ---
 
-# ONE-WEEK TECHNICAL PROJECT REPORT
-
-## **DIGITAL CLOCK FLUTTER APPLICATION WITH REAL-TIME SYNC, STATE MANAGEMENT, ANIMATIONS, AND REST API INTEGRATION**
+# DIGITAL CLOCK FLUTTER APPLICATION
+## **REAL-TIME SYNC, STATE MANAGEMENT, ANIMATIONS, AND REST API INTEGRATION**
 
 **Submitted in partial fulfillment of the requirements for the One-Week Technical Project / Internship**
 
@@ -14,13 +13,13 @@
 
 ### **Submitted by:**
 - **Student Name:** G. N. V. Sai Nitheesh
-- **Roll Number:** 21AG1A05XX *(ACE Engineering College)*
-- **Branch and Year:** Department of Computer Science and Engineering (CSE), B.Tech IV Year
+- **Roll Number:** [Student Roll Number / University Hall Ticket]
+- **Branch and Year:** Department of Computer Science and Engineering (CSE), B.Tech
 - **Academic Year:** 2026 – 2027
-- **Project Duration:** 04 October 2026 to 10 October 2026 (7 Days)
-- **Project Guide / Mentor:** Faculty Mentor, Dept. of CSE
+- **Project Duration:** 7 Days (One-Week Intensive Technical Project)
+- **Project Guide / Mentor:** Faculty Mentor / Technical Guide, Dept. of CSE
 - **Organization / Training Partner:** EduSkills Foundation & AICTE Virtual Internship
-- **Submitted to:** Department of Computer Science and Engineering, ACE Engineering College
+- **Submitted to:** Department of Computer Science and Engineering
 
 ---
 
@@ -47,13 +46,13 @@
 
 ## 1. CERTIFICATE
 
-This is to certify that **G. N. V. Sai Nitheesh**, bearing Roll Number **21AG1A05XX**, of the Department of Computer Science and Engineering, ACE Engineering College, has successfully completed the one-week technical project entitled **“Digital Clock Flutter Application with Real-Time Sync, State Management, Animations, and REST API Integration”** during **04 October 2026 to 10 October 2026** at ACE Engineering College in association with EduSkills Foundation, under the guidance of the undersigned mentor.
+This is to certify that **G. N. V. Sai Nitheesh**, bearing Roll Number **[Student Roll Number]**, of the Department of Computer Science and Engineering, has successfully completed the one-week technical project entitled **“Digital Clock Flutter Application with Real-Time Sync, State Management, Animations, and REST API Integration”** in association with EduSkills Foundation & AICTE, under the guidance of the undersigned mentor.
 
 <br><br>
 
 ______________________________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ______________________________________  
 **Signature of Project Mentor / Guide** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Signature of Head of the Department (HoD)**  
-Department of CSE, ACE Engineering College &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Department of CSE, ACE Engineering College  
+Department of Computer Science & Engineering &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Department of Computer Science & Engineering  
 
 **Date:** 10 October 2026 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Place:** Hyderabad, India  
 
@@ -61,7 +60,7 @@ Department of CSE, ACE Engineering College &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 
 ## 2. ACKNOWLEDGEMENT
 
-I express my deepest gratitude to **ACE Engineering College** for providing state-of-the-art laboratory infrastructure and a conducive technical learning environment to undertake this one-week project.
+I express my deepest gratitude to the **Department of Computer Science and Engineering** and the **Institution** for providing state-of-the-art laboratory infrastructure and a conducive technical learning environment to undertake this one-week project.
 
 I convey my heartfelt thanks to our **Head of the Department (HoD)**, Department of Computer Science and Engineering, for their constant encouragement and administrative backing. I also extend my sincere gratitude to my **Project Guide / Faculty Mentor** for their valuable insights, technical direction, and continuous review throughout the 7-day development cycle.
 
@@ -538,9 +537,9 @@ fd771be Create basic digital clock UI
 ## 16. MENTOR EVALUATION SHEET
 
 **Student Name:** G. N. V. Sai Nitheesh  
-**Roll Number:** 21AG1A05XX  
+**Roll Number:** [Student Roll Number]  
 **Project Title:** Digital Clock Flutter Application with Real-Time Sync, State Management, Animations, and REST API Integration  
-**Mentor Name:** Faculty Mentor, Dept. of CSE  
+**Mentor Name:** Faculty Mentor / Technical Guide, Dept. of CSE  
 
 | Evaluation Criterion | Maximum Marks | Marks Awarded |
 | :--- | :---: | :---: |
@@ -559,4 +558,4 @@ fd771be Create basic digital clock UI
 
 ______________________________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ______________________________________  
 **Mentor Signature with Date** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Head of Department (HoD) Signature**  
-Department of CSE, ACE Engineering College &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Department of CSE, ACE Engineering College  
+Department of Computer Science & Engineering &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Department of Computer Science & Engineering  
