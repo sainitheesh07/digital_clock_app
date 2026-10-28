@@ -1,14 +1,4 @@
 # Digital Clock Flutter Application
-### *A Modern, Responsive, Animated Cross-Platform Timekeeping System*
-
-[![Flutter](https://img.shields.io/badge/Flutter-3.27.x-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
-[![Dart](https://img.shields.io/badge/Dart-3.13+-0175C2?logo=dart&logoColor=white)](https://dart.dev)
-[![State Management](https://img.shields.io/badge/State_Management-Provider_v6.1.5-blueviolet)](https://pub.dev/packages/provider)
-[![Tests](https://img.shields.io/badge/Tests-100%25_Passing-brightgreen)](test/widget_test.dart)
-[![Platform](https://img.shields.io/badge/Platforms-Android%20%7C%20iOS%20%7C%20Web%20%7C%20Windows-blue)](https://flutter.dev/multi-platform)
-[![Project Report](https://img.shields.io/badge/Project_Report-16_Sections_Complete-success)](PROJECT_REPORT.md)
-
----
 
 ## 📌 Project Overview
 
