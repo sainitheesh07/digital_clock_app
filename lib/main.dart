@@ -1,17 +1,35 @@
+/// ============================================================================
+/// ACE ENGINEERING COLLEGE - ONE-WEEK TECHNICAL PROJECT
+/// DIGITAL CLOCK FLUTTER APPLICATION
+/// ----------------------------------------------------------------------------
+/// Covers:
+/// - Experiment 1: Flutter Project Setup & Environment Configuration
+/// - Experiment 2: Basic UI Design & Core Widgets (Scaffold, AppBar, Column)
+/// - Experiment 3: Dynamic Real-Time Clock with Timer.periodic & DateTime
+/// - Experiment 4: Modern Dark Gradient Theme, Card Container & Typography
+/// - Experiment 5: Responsive Layout (MediaQuery breakpoints, FittedBox, Wrap)
+/// - Experiment 6: Multi-Screen Navigation & Named Routes
+/// - Experiment 7: State Management using Provider Pattern
+/// - Experiment 8: Fluid Startup Fade-In Animation
+/// - Experiment 9: REST API Integration (World Time Service & FutureBuilder)
+/// - Experiment 10: Unit Testing, Widget Testing & Debugging
+/// ============================================================================
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'services/world_time_service.dart';
 import 'providers/clock_settings.dart';
 import 'widgets/clock_action_button.dart';
 import 'screens/settings_screen.dart';
 
+// Experiment 1: Flutter Application Entry Point
 void main() {
   runApp(const DigitalClockApp());
 }
 
+// Experiment 2 & 7: Root Widget with Provider State Management
 class DigitalClockApp extends StatelessWidget {
   const DigitalClockApp({super.key});
 
@@ -20,6 +38,7 @@ class DigitalClockApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => ClockSettings(),
       child: MaterialApp(
+        title: 'Digital Clock App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
@@ -33,6 +52,7 @@ class DigitalClockApp extends StatelessWidget {
             backgroundColor: Color(0xFF203A43),
             foregroundColor: Colors.white,
             centerTitle: true,
+            elevation: 2,
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
@@ -48,6 +68,7 @@ class DigitalClockApp extends StatelessWidget {
             ),
           ),
         ),
+        // Experiment 6: Named Routes for Multi-Screen Navigation
         initialRoute: '/',
         routes: {
           '/': (context) => const DigitalClockScreen(),
@@ -59,12 +80,12 @@ class DigitalClockApp extends StatelessWidget {
   }
 }
 
+// Experiment 3: Dynamic Real-Time Clock Screen using StatefulWidget
 class DigitalClockScreen extends StatefulWidget {
   const DigitalClockScreen({super.key});
 
   @override
-  State<DigitalClockScreen> createState() =>
-      _DigitalClockScreenState();
+  State<DigitalClockScreen> createState() => _DigitalClockScreenState();
 }
 
 class _DigitalClockScreenState extends State<DigitalClockScreen>
@@ -72,6 +93,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
   DateTime currentTime = DateTime.now();
   Timer? timer;
 
+  // Experiment 8: Fluid Fade-in Animation Controller
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -79,7 +101,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
   void initState() {
     super.initState();
 
-    // Experiment 8: Fade-in animation.
+    // Experiment 8: Initialize fade-in animation
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
@@ -92,12 +114,11 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
 
     _animationController.forward();
 
-    // Update the digital clock every second.
+    // Experiment 3: Periodic Timer updating clock every second
     timer = Timer.periodic(
       const Duration(seconds: 1),
       (_) {
         if (!mounted) return;
-
         setState(() {
           currentTime = DateTime.now();
         });
@@ -131,7 +152,6 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
       'November',
       'December',
     ];
-
     return months[month - 1];
   }
 
@@ -146,7 +166,6 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
     }
 
     final displayHour = hour % 12 == 0 ? 12 : hour % 12;
-
     return '${formatNumber(displayHour)}:'
         '${formatNumber(currentTime.minute)}:'
         '${formatNumber(currentTime.second)}';
@@ -158,10 +177,11 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
 
   @override
   Widget build(BuildContext context) {
+    // Experiment 7: Watch ClockSettings Provider for reactive UI updates
     final clockSettings = context.watch<ClockSettings>();
     final screenWidth = MediaQuery.of(context).size.width;
 
-    // Experiment 3: Responsive breakpoints.
+    // Experiment 5: Responsive typography & card padding based on screen width
     final clockFontSize = screenWidth < 600
         ? 38.0
         : screenWidth < 1024
@@ -169,16 +189,14 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
             : 72.0;
 
     final cardPadding = screenWidth < 600 ? 20.0 : 35.0;
-
     final time = getTime();
-
     final date =
-        '${currentTime.day} ${getMonth(currentTime.month)} '
-        '${currentTime.year}';
+        '${currentTime.day} ${getMonth(currentTime.month)} ${currentTime.year}';
 
     return Scaffold(
       body: Container(
         width: double.infinity,
+        // Experiment 4: Linear Gradient Background
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -193,25 +211,24 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
         child: SafeArea(
           child: Column(
             children: [
+              // Top Action Bar: Quick 12H/24H Toggle
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      context
-                          .read<ClockSettings>()
-                          .toggleTimeFormat();
+                      context.read<ClockSettings>().toggleTimeFormat();
                     },
                     icon: const Icon(Icons.access_time),
                     label: Text(
-                      clockSettings.is24HourFormat
-                          ? '12 Hour'
-                          : '24 Hour',
+                      clockSettings.is24HourFormat ? '12 Hour' : '24 Hour',
                     ),
                   ),
                 ),
               ),
+
+              // Central Digital Clock Display
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(12),
@@ -220,8 +237,10 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
                       constraints: const BoxConstraints(
                         maxWidth: 750,
                       ),
+                      // Experiment 8: Fade-in Animation
                       child: FadeTransition(
                         opacity: _fadeAnimation,
+                        // Experiment 4: Styled Container Card
                         child: Container(
                           width: double.infinity,
                           margin: const EdgeInsets.all(8),
@@ -232,6 +251,13 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
                             border: Border.all(
                               color: Colors.white24,
                             ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.cyanAccent.withOpacity(0.08),
+                                blurRadius: 24,
+                                spreadRadius: 4,
+                              ),
+                            ],
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -242,10 +268,11 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
                                 size: 55,
                               ),
                               const SizedBox(height: 20),
-                              const Text(
-                                'DIGITAL CLOCK',
+                              // Reactive Clock Title from Provider
+                              Text(
+                                clockSettings.clockLabel,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white70,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -253,6 +280,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
                                 ),
                               ),
                               const SizedBox(height: 25),
+                              // Experiment 5: Responsive FittedBox for Time Text
                               FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
@@ -286,6 +314,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
                                 ),
                               ),
                               const SizedBox(height: 28),
+                              // Experiment 5 & 6: Action Navigation Buttons
                               Wrap(
                                 alignment: WrapAlignment.center,
                                 spacing: 12,
@@ -329,7 +358,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
   }
 }
 
-
+// Experiment 9: REST API World Clock Screen
 class WorldClockScreen extends StatefulWidget {
   const WorldClockScreen({super.key});
 
@@ -339,7 +368,6 @@ class WorldClockScreen extends StatefulWidget {
 
 class _WorldClockScreenState extends State<WorldClockScreen> {
   final WorldTimeService _worldTimeService = WorldTimeService();
-
   late Future<Map<String, dynamic>> _timeFuture;
 
   @override
@@ -370,7 +398,7 @@ class _WorldClockScreenState extends State<WorldClockScreen> {
                 return const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(),
+                    CircularProgressIndicator(color: Colors.cyanAccent),
                     SizedBox(height: 16),
                     Text('Fetching time from REST API...'),
                   ],
@@ -395,6 +423,7 @@ class _WorldClockScreenState extends State<WorldClockScreen> {
                     Text(
                       '${snapshot.error}',
                       textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.white70),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton.icon(
@@ -419,14 +448,17 @@ class _WorldClockScreenState extends State<WorldClockScreen> {
                 children: [
                   const Icon(
                     Icons.public,
-                    size: 60,
+                    size: 64,
                     color: Colors.cyanAccent,
                   ),
                   const SizedBox(height: 20),
                   const Text(
                     'Time from REST API',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 22),
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -435,6 +467,7 @@ class _WorldClockScreenState extends State<WorldClockScreen> {
                     style: const TextStyle(
                       fontSize: 18,
                       color: Colors.cyanAccent,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -447,17 +480,27 @@ class _WorldClockScreenState extends State<WorldClockScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text('UTC offset: $utcOffset'),
-                  const SizedBox(height: 24),
-                  ElevatedButton.icon(
-                    onPressed: _retryFetch,
-                    icon: const Icon(Icons.refresh),
-                    label: const Text('Refresh Time'),
+                  Text(
+                    'UTC offset: $utcOffset',
+                    style: const TextStyle(color: Colors.white70),
                   ),
-                  const SizedBox(height: 12),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Back to Clock'),
+                  const SizedBox(height: 24),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: _retryFetch,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Refresh Time'),
+                      ),
+                      TextButton.icon(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.arrow_back),
+                        label: const Text('Back to Clock'),
+                      ),
+                    ],
                   ),
                 ],
               );
