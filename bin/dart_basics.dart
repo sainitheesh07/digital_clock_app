@@ -1,8 +1,9 @@
-/// ============================================================================
-/// CS506PC – UI Design (Flutter Lab)
-/// Experiment 1(b): Simple Dart Program demonstrating Language Basics
-/// Textbook: Marco L. Napoli, Beginning Flutter: A Hands-on Guide to App Development
-/// ============================================================================
+// ignore_for_file: avoid_print
+// ============================================================================
+// CS506PC – UI Design (Flutter Lab)
+// Experiment 1(b): Simple Dart Program demonstrating Language Basics
+// Textbook: Marco L. Napoli, Beginning Flutter: A Hands-on Guide to App Development
+// ============================================================================
 
 import 'dart:async';
 

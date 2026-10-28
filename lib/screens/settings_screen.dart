@@ -144,7 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         style: const TextStyle(color: Colors.white60),
                       ),
                       value: clockSettings.is24HourFormat,
-                      activeColor: Colors.cyanAccent,
+                      activeTrackColor: Colors.cyanAccent,
                       onChanged: (bool value) {
                         clockSettings.setTimeFormat(value);
                       },
@@ -179,7 +179,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     decoration: BoxDecoration(
                       color: Colors.black12,
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.cyanAccent.withOpacity(0.3)),
+                      border: Border.all(color: Colors.cyanAccent.withValues(alpha: 0.3)),
                     ),
                     child: Column(
                       children: [

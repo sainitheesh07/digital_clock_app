@@ -1,20 +1,20 @@
-/// ============================================================================
-/// CS506PC – UI Design (Flutter Lab)
-/// Final Technical Project: Digital Clock Flutter Application
-/// Textbook: Marco L. Napoli, Beginning Flutter: A Hands-on Guide to App Development
-/// ----------------------------------------------------------------------------
-/// Prescribed Lab Syllabus Mapping:
-/// Experiment 1: a) Install Flutter & Dart SDK | b) Dart Basics Program (bin/dart_basics.dart)
-/// Experiment 2: a) Core Widgets (Text, Icon, Container) | b) Layouts (Row, Column, Stack)
-/// Experiment 3: a) Responsive UI | b) Media queries & Breakpoints (MediaQuery, FittedBox)
-/// Experiment 4: a) Navigator Screen Flow | b) Named Routes ('/', '/world-clock', '/settings')
-/// Experiment 5: a) Stateless & Stateful Widgets | b) State Management (setState & Provider)
-/// Experiment 6: a) Custom Widgets (ClockActionButton) | b) Themes & Custom Styles
-/// Experiment 7: a) Form with Input Fields | b) Form Validation (screens/settings_screen.dart)
-/// Experiment 8: a) Flutter Animation Framework | b) Multiple Animations (Fade + Slide)
-/// Experiment 9: a) Fetch REST API Data | b) Display Data with FutureBuilder (World Clock)
-/// Experiment 10: a) Unit & Widget Testing | b) Debugging & Static Analysis (widget_test.dart)
-/// ============================================================================
+// ============================================================================
+// CS506PC – UI Design (Flutter Lab)
+// Final Technical Project: Digital Clock Flutter Application
+// Textbook: Marco L. Napoli, Beginning Flutter: A Hands-on Guide to App Development
+// ----------------------------------------------------------------------------
+// Prescribed Lab Syllabus Mapping:
+// Experiment 1: a) Install Flutter & Dart SDK | b) Dart Basics Program (bin/dart_basics.dart)
+// Experiment 2: a) Core Widgets (Text, Icon, Container) | b) Layouts (Row, Column, Stack)
+// Experiment 3: a) Responsive UI | b) Media queries & Breakpoints (MediaQuery, FittedBox)
+// Experiment 4: a) Navigator Screen Flow | b) Named Routes ('/', '/world-clock', '/settings')
+// Experiment 5: a) Stateless & Stateful Widgets | b) State Management (setState & Provider)
+// Experiment 6: a) Custom Widgets (ClockActionButton) | b) Themes & Custom Styles
+// Experiment 7: a) Form with Input Fields | b) Form Validation (screens/settings_screen.dart)
+// Experiment 8: a) Flutter Animation Framework | b) Multiple Animations (Fade + Slide)
+// Experiment 9: a) Fetch REST API Data | b) Display Data with FutureBuilder (World Clock)
+// Experiment 10: a) Unit & Widget Testing | b) Debugging & Static Analysis (widget_test.dart)
+// ============================================================================
 
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -279,7 +279,7 @@ class _DigitalClockScreenState extends State<DigitalClockScreen>
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.cyanAccent.withOpacity(0.08),
+                                      color: Colors.cyanAccent.withValues(alpha: 0.08),
                                       blurRadius: 24,
                                       spreadRadius: 4,
                                     ),

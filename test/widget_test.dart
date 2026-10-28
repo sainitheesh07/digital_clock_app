@@ -1,8 +1,8 @@
-/// ============================================================================
-/// CS506PC – UI Design (Flutter Lab)
-/// Experiment 10: a) Unit & Widget Testing | b) Debugging & Static Analysis
-/// Textbook: Marco L. Napoli, Beginning Flutter: A Hands-on Guide to App Development
-/// ============================================================================
+// ============================================================================
+// CS506PC – UI Design (Flutter Lab)
+// Experiment 10: a) Unit & Widget Testing | b) Debugging & Static Analysis
+// Textbook: Marco L. Napoli, Beginning Flutter: A Hands-on Guide to App Development
+// ============================================================================
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
